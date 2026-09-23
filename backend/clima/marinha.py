@@ -12,9 +12,14 @@ Usa tudo que a API oferece de graça e que tem dado na costa do RJ:
 A Marine API não tem vento — ele vem da Forecast API da Open-Meteo, no
 mesmo ponto (usado pela "Visão intermediária": terral/maral, rajadas).
 
+A API também não tem energia nem potência das ondas: são calculadas aqui
+(ver `energia_onda` e `potencia_onda`), pra cada componente (total, vagas
+e swells) de todos os modelos.
+
 Modelos que existem na API mas NÃO têm dado no RJ (testado): `dwd_ewam`
 (só Europa) e `ncep_gfswave016` (só 52.5°N–15°S). Ficam de fora.
 """
+import math
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
@@ -98,6 +103,44 @@ MODELO_PADRAO = {
 PRIORIDADE_DIARIA = ['best_match', 'ncep_gfswave025', 'ecmwf_wam', 'ecmwf_wam025', 'meteofrance_wave', 'dwd_gwam']
 
 DIAS_SEMANA = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+
+
+DENSIDADE_AGUA_MAR = 1025  # kg/m³
+GRAVIDADE = 9.81  # m/s²
+
+
+def energia_onda(altura):
+    """Energia das ondas em J/m² (densidade de energia): ρ·g·H²/16 — é a
+    altura das barras no gráfico de energia."""
+    if altura is None:
+        return None
+    return round(DENSIDADE_AGUA_MAR * GRAVIDADE * altura ** 2 / 16)
+
+
+def potencia_onda(altura, periodo):
+    """Potência das ondas em kW por metro de crista: ρ·g²·H²·T/(64π) —
+    energia que a onda carrega por segundo; o período entra aqui, então
+    ondas do mesmo tamanho mais espaçadas têm mais potência. É a cor das
+    barras no gráfico de energia."""
+    if altura is None or periodo is None:
+        return None
+    return round(DENSIDADE_AGUA_MAR * GRAVIDADE ** 2 * altura ** 2 * periodo / (64 * math.pi) / 1000, 1)
+
+
+# Componentes que ganham energia/potência: total, vagas (ondas de vento) e
+# os três swells. Prefixo das variáveis da API.
+COMPONENTES_ONDA = ['wave', 'wind_wave', 'swell_wave', 'secondary_swell_wave', 'tertiary_swell_wave']
+
+
+def _adicionar_energia(variaveis):
+    for prefixo in COMPONENTES_ONDA:
+        alturas = variaveis.get(f'{prefixo}_height')
+        periodos = variaveis.get(f'{prefixo}_period')
+        if not alturas:
+            continue
+        variaveis[f'{prefixo}_energy'] = [energia_onda(h) for h in alturas]
+        if periodos:
+            variaveis[f'{prefixo}_power'] = [potencia_onda(h, t) for h, t in zip(alturas, periodos)]
 
 
 def _buscar(parametros, url=MARINE_URL):
@@ -205,6 +248,7 @@ def _normalizar_horaria(dados):
             valores = bruto.get(_chave_modelo(variavel, modelo))
             if _tem_dado(valores):
                 variaveis[variavel] = valores
+        _adicionar_energia(variaveis)
         if variaveis:
             series[modelo] = variaveis
 
@@ -235,6 +279,24 @@ def _normalizar_diaria(dados):
         if dia['fonte']:
             dias.append(dia)
     return dias
+
+
+def _energia_maxima_por_dia(horaria):
+    """{data: maior energia do dia}, na mesma ordem de prioridade dos cards
+    diários: o modelo padrão primeiro, depois quem vai mais longe."""
+    maximos = {}
+    for modelo in PRIORIDADE_DIARIA:
+        energias = horaria['series'].get(modelo, {}).get('wave_energy')
+        if not energias:
+            continue
+        por_dia = {}
+        for data_hora, energia in zip(horaria['tempo'], energias):
+            if energia is not None:
+                dia = data_hora[:10]
+                por_dia[dia] = max(por_dia.get(dia, 0), energia)
+        for dia, energia in por_dia.items():
+            maximos.setdefault(dia, energia)
+    return maximos
 
 
 def _normalizar_15min(dados):
@@ -273,6 +335,13 @@ def buscar_previsao_maritima(latitude, longitude):
 
     horaria = _normalizar_horaria(modelos)
     atual = {k: v for k, v in (atual_e_15min.get('current') or {}).items() if k != 'interval'}
+    atual['wave_energy'] = energia_onda(atual.get('wave_height'))
+    atual['wave_power'] = potencia_onda(atual.get('wave_height'), atual.get('wave_period'))
+
+    diaria = _normalizar_diaria(modelos)
+    energia_por_dia = _energia_maxima_por_dia(horaria)
+    for dia in diaria:
+        dia['wave_energy_max'] = energia_por_dia.get(dia['data'])
 
     metadados = []
     for modelo in [MODELO_PADRAO] + MODELOS:
@@ -292,9 +361,14 @@ def buscar_previsao_maritima(latitude, longitude):
 
     return {
         'grade': {'latitude': modelos.get('latitude'), 'longitude': modelos.get('longitude')},
-        'unidades': _unidades(atual_e_15min, modelos, era5),
+        'unidades': {
+            **_unidades(atual_e_15min, modelos, era5),
+            **{f'{p}_energy': 'J/m²' for p in COMPONENTES_ONDA},
+            **{f'{p}_power': 'kW/m' for p in COMPONENTES_ONDA},
+            'wave_energy_max': 'J/m²',
+        },
         'atual': atual,
-        'diaria': _normalizar_diaria(modelos),
+        'diaria': diaria,
         'horaria': horaria,
         'quinzeMinutos': _normalizar_15min(atual_e_15min),
         'historico': historico,

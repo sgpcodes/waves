@@ -10,8 +10,9 @@ function rotuloEixo(dataHora) {
 
 // Mesma variável em todos os modelos que a têm, lado a lado, hora a hora.
 // Direção fica de fora (0° e 360° são o mesmo lugar, a linha "pularia") —
-// ela aparece na tabela hora a hora.
-function ComparacaoModelos({ horaria, modelos, unidades }) {
+// ela aparece na tabela hora a hora. Com `variavelFixa`, vira um bloco de
+// uma variável só (sem os botões de escolha) — usado pro gráfico de energia.
+function ComparacaoModelos({ horaria, modelos, unidades, variavelFixa, titulo, nota }) {
   const modelosComparaveis = useMemo(() => modelos.filter((m) => COR_MODELO[m.id]), [modelos])
 
   const variaveis = useMemo(() => {
@@ -19,8 +20,8 @@ function ComparacaoModelos({ horaria, modelos, unidades }) {
     return Object.keys(ROTULO_VARIAVEL).filter((v) => disponiveis.has(v) && !ehDirecao(v))
   }, [modelosComparaveis])
 
-  const [variavel, setVariavel] = useState('wave_height')
-  const variavelAtiva = variaveis.includes(variavel) ? variavel : variaveis[0]
+  const [variavel, setVariavel] = useState(variavelFixa ?? 'wave_height')
+  const variavelAtiva = variavelFixa ?? (variaveis.includes(variavel) ? variavel : variaveis[0])
   const modelosDaVariavel = useMemo(
     () => modelosComparaveis.filter((m) => horaria.series[m.id]?.[variavelAtiva]),
     [modelosComparaveis, horaria, variavelAtiva],
@@ -49,22 +50,24 @@ function ComparacaoModelos({ horaria, modelos, unidades }) {
   return (
     <div className={styles.bloco}>
       <div className={styles.blocoCabecalho}>
-        <h3 className={styles.blocoTitulo}>Comparação entre modelos</h3>
-        <span className={styles.blocoNota}>Hora a hora · até 16 dias</span>
+        <h3 className={styles.blocoTitulo}>{titulo ?? 'Comparação entre modelos'}</h3>
+        <span className={styles.blocoNota}>{nota ?? 'Hora a hora · até 16 dias'}</span>
       </div>
 
-      <div className={styles.chips} role="group" aria-label="Variável">
-        {variaveis.map((v) => (
-          <button
-            key={v}
-            type="button"
-            className={`${styles.chipBotao} ${v === variavelAtiva ? styles.chipBotaoAtivo : ''}`}
-            onClick={() => setVariavel(v)}
-          >
-            {ROTULO_VARIAVEL[v]}
-          </button>
-        ))}
-      </div>
+      {!variavelFixa && (
+        <div className={styles.chips} role="group" aria-label="Variável">
+          {variaveis.map((v) => (
+            <button
+              key={v}
+              type="button"
+              className={`${styles.chipBotao} ${v === variavelAtiva ? styles.chipBotaoAtivo : ''}`}
+              onClick={() => setVariavel(v)}
+            >
+              {ROTULO_VARIAVEL[v]}
+            </button>
+          ))}
+        </div>
+      )}
 
       <figure className={styles.figura}>
         <figcaption className={styles.figuraTitulo}>

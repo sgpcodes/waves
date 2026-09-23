@@ -18,6 +18,7 @@ Abaixo disso fica a **previsão marítima do litoral do Rio de Janeiro** (Open-M
 - **Comparação entre modelos** hora a hora: MeteoFrance Wave e Currents, ECMWF WAM e WAM 0,25°, GFS Wave 0,25° e DWD GWAM.
 - **Tabela hora a hora** com todas as variáveis de cada modelo.
 - **Histórico ERA5** dos últimos ~90 dias.
+- **Gráfico de energia das ondas** (abas Técnica e Intermediária), no estilo dos sites de surfe: a altura da barra é a energia em **J/m²** (ρ·g·H²/16), e a cor é a **potência em kW/m** (ρ·g²·H²·T/64π). Tem abas por componente: Total, Vagas e cada swell, nomeado pela direção de onde vem. A API não fornece esses dados, então o backend calcula (`energia_onda` e `potencia_onda` em `backend/clima/marinha.py`).
 - Ficam de fora os modelos sem cobertura no RJ: DWD EWAM (só Europa) e GFS Wave 0,16° (só hemisfério norte).
 
 ```

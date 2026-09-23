@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Anchor, BarChart3, MapPin, Smile, Waves } from 'lucide-react'
 import AgoraNoMar from './AgoraNoMar'
 import DiasMar from './DiasMar'
+import GraficoEnergia from './GraficoEnergia'
 import MareCorrentes from './MareCorrentes'
 import ComparacaoModelos from './ComparacaoModelos'
 import TabelaMaritima from './TabelaMaritima'
@@ -264,8 +265,23 @@ function PrevisaoMaritima() {
         <div className={`${styles.conteudo} ${recarregando ? styles.conteudoRecarregando : ''}`}>
           <AgoraNoMar atual={previsao.atual} unidades={previsao.unidades} />
           <DiasMar dias={previsao.diaria} unidades={previsao.unidades} />
+          <div className={styles.bloco}>
+            <div className={styles.blocoCabecalho}>
+              <h3 className={styles.blocoTitulo}>Energia das ondas</h3>
+              <span className={styles.blocoNota}>Modelo padrão · de 3 em 3 horas · 10 dias</span>
+            </div>
+            <GraficoEnergia horaria={previsao.horaria} dias={10} />
+          </div>
           <MareCorrentes quinzeMinutos={previsao.quinzeMinutos} unidades={previsao.unidades} />
           <ComparacaoModelos horaria={previsao.horaria} modelos={previsao.modelos} unidades={previsao.unidades} />
+          <ComparacaoModelos
+            horaria={previsao.horaria}
+            modelos={previsao.modelos}
+            unidades={previsao.unidades}
+            variavelFixa="wave_energy"
+            titulo="Energia das ondas por modelo"
+            nota="J/m² · calculada da altura de onda de cada modelo"
+          />
           <TabelaMaritima horaria={previsao.horaria} modelos={previsao.modelos} unidades={previsao.unidades} />
           <HistoricoEra5 historico={previsao.historico} unidades={previsao.unidades} />
 

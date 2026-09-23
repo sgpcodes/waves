@@ -28,6 +28,12 @@ function DiasMar({ dias, unidades }) {
               {formatarValor(dia.wave_period_max, unidades.wave_period_max, 0)}
             </span>
             <dl className={styles.diaMarLista}>
+              {dia.wave_energy_max != null && (
+                <>
+                  <dt>Energia máx.</dt>
+                  <dd>{formatarValor(dia.wave_energy_max, 'J/m²', 0)}</dd>
+                </>
+              )}
               <dt>Swell</dt>
               <dd>
                 {formatarValor(dia.swell_wave_height_max, unidades.swell_wave_height_max, 1)} ·{' '}

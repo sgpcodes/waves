@@ -14,6 +14,7 @@ import {
   YAxis,
 } from 'recharts'
 import { ArrowDown, ArrowUp, Moon } from 'lucide-react'
+import GraficoEnergia from './GraficoEnergia'
 import Seta from './Seta'
 import TooltipGrafico from './TooltipGrafico'
 import { direcaoTexto, formatarDataHora, formatarValor } from '../../services/marinha'
@@ -109,7 +110,8 @@ function VisaoIntermediaria({ previsao }) {
             {formatarValor(agora.altura, 'm', 1)}
           </span>
           <span className={styles.agoraDetalhe}>
-            {formatarValor(agora.swellPeriodo ?? agora.periodo, 's', 0)} · de {direcaoTexto(agora.swellDirecao ?? agora.direcao)}
+            {formatarValor(agora.swellPeriodo ?? agora.periodo, 's', 0)} · de {direcaoTexto(agora.swellDirecao ?? agora.direcao)} ·{' '}
+            {formatarValor(agora.energia, 'J/m²', 0)}
           </span>
         </div>
         <div className={styles.agoraItem}>
@@ -192,6 +194,8 @@ function VisaoIntermediaria({ previsao }) {
                 celula={(c) => formatarValor(c.altura, null, 1)}
               />
               <LinhaGrade rotulo="Período (s)" grade={grade} celula={(c) => formatarValor(c.swellPeriodo ?? c.periodo, null, 0)} />
+              <LinhaGrade rotulo="Energia (J/m²)" grade={grade} celula={(c) => formatarValor(c.energia, null, 0)} />
+              <LinhaGrade rotulo="Potência (kW/m)" grade={grade} pequena celula={(c) => formatarValor(c.potencia, null, 1)} />
               <LinhaGrade
                 rotulo="Direção"
                 grade={grade}
@@ -288,6 +292,15 @@ function VisaoIntermediaria({ previsao }) {
             <Line type="monotone" dataKey="swellAltura" name="Swell primário" stroke="var(--modelo-2)" strokeWidth={2} dot={false} isAnimationActive={false} />
           </ComposedChart>
         </ResponsiveContainer>
+      </div>
+
+      {/* Gráfico de energia */}
+      <div className={styles.bloco}>
+        <div className={styles.blocoCabecalho}>
+          <h3 className={styles.blocoTitulo}>Energia das ondas — próximos 7 dias</h3>
+          <span className={styles.blocoNota}>De 3 em 3 horas</span>
+        </div>
+        <GraficoEnergia horaria={previsao.horaria} dias={7} />
       </div>
 
       <div className={styles.duasColunas}>
@@ -393,6 +406,11 @@ function VisaoIntermediaria({ previsao }) {
       </div>
 
       <div className={styles.glossario}>
+        <p>
+          <strong>Energia (J/m²) e potência (kW/m):</strong> calculadas da altura e do período (a API não fornece esses
+          dados). A energia depende só da altura; a potência também do período — ondas do mesmo tamanho, mas mais
+          espaçadas, chegam com bem mais força.
+        </p>
         <p>
           <strong>Terral:</strong> vento da terra pro mar, que deixa a onda lisa. <strong>Maral:</strong> vento do mar pra
           terra, que bagunça a onda. <strong>Lateral:</strong> paralelo à praia.

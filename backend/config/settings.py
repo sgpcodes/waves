@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,8 +82,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # No Supabase use a connection string do "Session pooler" (porta 5432) —
 # o Render free não tem IPv6 e a conexão direta do Supabase é só IPv6.
 # Com o Session pooler, CONN_MAX_AGE=0 (padrão) é o seguro.
-_database_url = os.environ.get('DATABASE_URL')
+_database_url = (os.environ.get('DATABASE_URL') or '').strip()
 if _database_url:
+    # Erros comuns ao colar a string do Supabase — explica o que corrigir
+    # sem mostrar a senha no log.
+    if not _database_url.startswith(('postgres://', 'postgresql://')):
+        raise ImproperlyConfigured(
+            'DATABASE_URL inválida: precisa ser a URL completa, começando com "postgresql://" '
+            '(copie em Supabase -> Connect -> Session pooler).'
+        )
+    if '[' in _database_url or ']' in _database_url:
+        raise ImproperlyConfigured(
+            'DATABASE_URL inválida: tire os colchetes [ ] em volta da senha '
+            '(eles só marcavam onde a senha entra no modelo do Supabase).'
+        )
     DATABASES = {
         'default': dj_database_url.parse(
             _database_url,

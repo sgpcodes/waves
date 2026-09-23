@@ -100,6 +100,7 @@ function Dashboard() {
     if (!coordenadas) return
     let cancelado = false
     setCarregando(true)
+    setClima(null) // cidade nova: não mostra a previsão da cidade anterior
 
     async function carregar() {
       try {
@@ -147,13 +148,16 @@ function Dashboard() {
     />
   )
 
+  // Se uma atualização falhar mas já existe previsão carregada, continua
+  // mostrando a última (o selo do cabeçalho vira "Offline") e tenta de novo
+  // no próximo ciclo — em vez de apagar tudo e mostrar só a mensagem de erro.
   let conteudo
-  if (carregando) {
-    conteudo = <StatusMessage texto={TEXTOS.carregando} />
-  } else if (erro || !clima) {
-    conteudo = <StatusMessage texto={erro ?? TEXTOS.erroBusca} />
-  } else {
+  if (clima) {
     conteudo = <PrevisaoSemana clima={clima} cidade={cidade} />
+  } else if (carregando) {
+    conteudo = <StatusMessage texto={TEXTOS.carregando} />
+  } else {
+    conteudo = <StatusMessage texto={erro ?? TEXTOS.erroBusca} />
   }
 
   return (

@@ -7,6 +7,8 @@ export const ROTULO_VARIAVEL = {
   wave_direction: 'Direção da onda',
   wave_period: 'Período da onda',
   wave_peak_period: 'Período de pico',
+  wave_energy: 'Energia das ondas',
+  wave_power: 'Potência das ondas',
   wind_wave_height: 'Onda de vento — altura',
   wind_wave_direction: 'Onda de vento — direção',
   wind_wave_period: 'Onda de vento — período',
@@ -34,6 +36,8 @@ export const ROTULO_CURTO = {
   wave_direction: 'Dir. onda',
   wave_period: 'Período',
   wave_peak_period: 'Pico',
+  wave_energy: 'Energia',
+  wave_power: 'Potência',
   wind_wave_height: 'Vento alt.',
   wind_wave_direction: 'Vento dir.',
   wind_wave_period: 'Vento per.',
@@ -74,6 +78,54 @@ export const NOME_CURTO_MODELO = {
   ecmwf_wam025: 'ECMWF 0,25°',
   ncep_gfswave025: 'GFS',
   dwd_gwam: 'DWD',
+}
+
+// Escala de cores da potência das ondas (kW por metro de crista), do azul
+// (fraca) ao magenta (muito forte) — usada nas barras do gráfico de energia.
+// Energia e potência são calculadas no backend a partir da altura e do
+// período (a Marine API não fornece esses dados).
+export const ESCALA_POTENCIA = [
+  { ate: 1, cor: '#3d6fc2' },
+  { ate: 2, cor: '#4f9be0' },
+  { ate: 4, cor: '#5cc6ee' },
+  { ate: 6, cor: '#6fe6f2' },
+  { ate: 8, cor: '#78f2d4' },
+  { ate: 10, cor: '#7ef0a6' },
+  { ate: 13, cor: '#7cec72' },
+  { ate: 16, cor: '#a4ee58' },
+  { ate: 20, cor: '#cdf24f' },
+  { ate: 25, cor: '#f4f455' },
+  { ate: 30, cor: '#f7d448' },
+  { ate: 40, cor: '#f4ae3e' },
+  { ate: 50, cor: '#ef8a33' },
+  { ate: 65, cor: '#e75b27' },
+  { ate: 80, cor: '#d93030' },
+  { ate: 100, cor: '#b92a6a' },
+  { ate: Infinity, cor: '#d93fd6' },
+]
+
+export function corDaPotencia(kwm) {
+  if (kwm == null) return '#8fa3ad'
+  return ESCALA_POTENCIA.find((faixa) => kwm < faixa.ate).cor
+}
+
+const DIRECAO_COM_ARTIGO = [
+  'do Norte', 'de Nordeste', 'de Leste', 'de Sudeste', 'do Sul', 'de Sudoeste', 'de Oeste', 'de Noroeste',
+]
+
+// "do Sul", "de Sudeste"... pra nomear um swell pela direção de onde vem.
+export function direcaoComArtigo(graus) {
+  if (graus == null) return ''
+  return DIRECAO_COM_ARTIGO[Math.round(graus / 45) % 8]
+}
+
+// Média de direções em graus (vetorial: a média de 350° e 10° é 0°).
+export function mediaDirecoes(graus) {
+  const validos = graus.filter((g) => g != null)
+  if (!validos.length) return null
+  const seno = validos.reduce((soma, g) => soma + Math.sin((g * Math.PI) / 180), 0)
+  const cosseno = validos.reduce((soma, g) => soma + Math.cos((g * Math.PI) / 180), 0)
+  return ((Math.atan2(seno, cosseno) * 180) / Math.PI + 360) % 360
 }
 
 export function ehDirecao(variavel) {

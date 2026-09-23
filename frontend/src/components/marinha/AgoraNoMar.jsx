@@ -19,6 +19,8 @@ function cardDeOnda(atual, unidades, prefixo, titulo, icone) {
     linhas: [
       { rotulo: 'Período', valor: formatarValor(periodo, unidades[`${prefixo}_period`]) },
       pico != null && { rotulo: 'Período de pico', valor: formatarValor(pico, unidades[`${prefixo}_peak_period`]) },
+      prefixo === 'wave' && atual.wave_energy != null && { rotulo: 'Energia', valor: formatarValor(atual.wave_energy, 'J/m²', 0) },
+      prefixo === 'wave' && atual.wave_power != null && { rotulo: 'Potência', valor: formatarValor(atual.wave_power, 'kW/m', 1) },
       {
         rotulo: 'Vem de',
         valor: direcao != null ? `${direcaoTexto(direcao)} · ${Math.round(direcao)}°` : '—',

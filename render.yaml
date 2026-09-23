@@ -31,6 +31,9 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
+      # O Vite 8 precisa de Node 20.19+ — fixa a 22 pra não depender do padrão do Render.
+      - key: NODE_VERSION
+        value: "22"
       # URL do backend, ex.: https://ondas-backend.onrender.com
       - key: VITE_API_URL
         sync: false

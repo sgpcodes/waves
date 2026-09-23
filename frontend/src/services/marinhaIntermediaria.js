@@ -88,6 +88,8 @@ export function montarHoras(previsao) {
         swell2Periodo: serie.secondary_swell_wave_period?.[i] ?? null,
         swell2Direcao: serie.secondary_swell_wave_direction?.[i] ?? null,
         ventoOndaAltura: serie.wind_wave_height?.[i] ?? null,
+        energia: serie.wave_energy?.[i] ?? null, // J/m², calculada no backend
+        potencia: serie.wave_power?.[i] ?? null, // kW/m, calculada no backend
         mare: serie.sea_level_height_msl?.[i] ?? null,
         agua: serie.sea_surface_temperature?.[i] ?? null,
         vento: velocidade,

@@ -1,0 +1,136 @@
+/* Gráfico de energia das ondas (estilo site de surfe): fundo azul-petróleo
+   pra destacar a escala de cores da potência, noite mais escura. */
+
+.grafico {
+  --energia-dia: #4c8594;
+  --energia-noite: #36616d;
+  --energia-texto: #eef6f8;
+  min-width: 0;
+}
+
+.abas {
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.abas::-webkit-scrollbar {
+  display: none;
+}
+
+.aba {
+  flex-shrink: 0;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background-color: #2f5a66;
+  color: #eef6f8;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aba:hover {
+  background-color: #3a6b78;
+}
+
+.abaAtiva,
+.abaAtiva:hover {
+  background-color: var(--color-card-bg);
+  border-color: var(--color-card-border);
+  color: var(--color-text);
+}
+
+.area {
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 0.25rem 0;
+  border-radius: 0 10px 10px 10px;
+  background-color: #2b4f5a;
+}
+
+.legenda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+}
+
+.legenda p {
+  margin: 0;
+}
+
+.legenda strong {
+  color: var(--color-text);
+}
+
+.escala {
+  display: flex;
+  height: 10px;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.escala span {
+  flex: 1;
+}
+
+.escalaRotulos {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nota {
+  margin-top: 0.35rem !important;
+  font-size: 0.72rem;
+}
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+  background-color: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.tooltipTitulo {
+  font-size: 0.7rem;
+}
+
+.tooltipValor {
+  font-size: 0.98rem;
+  color: var(--color-text);
+}
+
+.tooltipLinha {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-text);
+}
+
+.tooltipCor {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+@media (max-width: 640px) {
+  .aba {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.76rem;
+  }
+}
