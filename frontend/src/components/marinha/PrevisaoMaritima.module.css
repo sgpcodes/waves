@@ -1,0 +1,957 @@
+/* Seção "Previsão marítima" — mesmos cards, raios e tokens do resto da
+   Dashboard (styles/theme.css). */
+
+.secao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+  min-width: 0;
+}
+
+.cartaoTopo,
+.bloco {
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.iconeCabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: var(--color-pill-bg);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.cabecalhoTextos {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Alternância "Visão técnica" / "Visão simples". */
+.seletorVisao {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+}
+
+.botaoVisao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.95rem;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botaoVisao:hover {
+  color: var(--color-text);
+}
+
+.botaoVisaoAtivo,
+.botaoVisaoAtivo:hover {
+  background-color: var(--color-card-bg);
+  color: var(--color-accent);
+  box-shadow: var(--shadow-card);
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.subtitulo {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+}
+
+.regioes {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 1.1rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-card-border);
+  scrollbar-width: none;
+}
+
+.abaRegiao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.abaRegiao:hover {
+  color: var(--color-text);
+}
+
+.abaRegiaoAtiva,
+.abaRegiaoAtiva:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.abaRegiaoContagem {
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+}
+
+.pontos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.gradeInfo {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+.mensagem {
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: opacity 0.2s ease;
+}
+
+.conteudoRecarregando {
+  opacity: 0.55;
+}
+
+/* ---------- blocos ---------- */
+
+.blocoCabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.blocoTitulo {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.blocoNota {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.aviso {
+  margin: 0.8rem 0 0;
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- chips (pontos, variáveis, modelos, janelas) ---------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chips + .figura {
+  margin-top: 1rem;
+}
+
+.chipBotao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.38rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-card-border);
+  background-color: var(--color-input-bg);
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.chipBotao:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.chipBotaoAtivo,
+.chipBotaoAtivo:hover {
+  background-color: var(--color-pill-ativo-bg);
+  border-color: var(--color-pill-ativo-bg);
+  color: var(--color-pill-ativo-texto);
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+/* ---------- agora no mar ---------- */
+
+.gradeAgora {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.cardAgora {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  background-color: var(--color-pill-bg);
+  min-width: 0;
+}
+
+.cardAgoraVazio {
+  opacity: 0.6;
+}
+
+.cardAgoraTitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.cardAgoraValor {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cardAgoraLinha {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.cardAgoraLinhaValor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* ---------- dias ---------- */
+
+.faixaDias {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+}
+
+.diaMar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 0 0 168px;
+  padding: 0.9rem 0.7rem;
+  border-radius: 14px;
+  background-color: var(--color-pill-bg);
+  text-align: center;
+}
+
+.diaMarNome {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.diaMarData {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+}
+
+.diaMarOnda {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.diaMarDirecao {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
+
+.diaMarLista {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.4rem;
+  width: 100%;
+  margin: 0.35rem 0 0;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--color-card-border);
+  font-size: 0.66rem;
+  text-align: left;
+}
+
+.diaMarLista dt {
+  color: var(--color-text-secondary);
+}
+
+.diaMarLista dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.selo {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-card-border);
+  background-color: var(--color-card-bg);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- gráficos ---------- */
+
+.gradeDupla {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.figura {
+  margin: 0;
+  min-width: 0;
+}
+
+.figuraTitulo {
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.74rem;
+  color: var(--color-text);
+}
+
+.legenda li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendaTraco,
+.tooltipTraco {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+  background-color: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  font-size: 0.75rem;
+}
+
+.tooltipTitulo {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+}
+
+.tooltipLinha {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-text);
+}
+
+.tooltipNome {
+  color: var(--color-text-secondary);
+}
+
+.listaMares {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.listaMaresTitulo {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-right: 0.2rem;
+}
+
+.mare {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+.mare strong {
+  color: var(--color-text);
+}
+
+.mareAlta::before,
+.mareBaixa::before {
+  font-size: 0.7rem;
+  color: var(--color-accent);
+}
+
+.mareAlta::before {
+  content: '▲';
+}
+
+.mareBaixa::before {
+  content: '▼';
+}
+
+/* ---------- histórico ---------- */
+
+.resumoHistorico {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.resumoHistorico > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background-color: var(--color-pill-bg);
+}
+
+.resumoRotulo {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+.resumoValor {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ---------- tabela ---------- */
+
+.tabelaRolagem {
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.45rem 0.65rem;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.tabela thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: var(--color-card-bg);
+  color: var(--color-table-header);
+  font-weight: 600;
+  vertical-align: bottom;
+}
+
+.tabela tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: left;
+}
+
+.tabela thead th:first-child {
+  left: 0;
+  z-index: 3;
+  text-align: left;
+}
+
+.tabela td {
+  color: var(--color-text);
+}
+
+.tabela tbody tr:hover td,
+.tabela tbody tr:hover th {
+  background-color: var(--color-table-linha-hover);
+}
+
+.tabelaUnidade {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 400;
+}
+
+.celulaDirecao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ---------- modelos ---------- */
+
+.gradeModelos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.6rem;
+}
+
+.explicacaoModelos {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-card-border);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.explicacaoModelos p {
+  margin: 0;
+}
+
+.explicacaoModelos p + p {
+  margin-top: 0.5rem;
+}
+
+.explicacaoModelos strong,
+.explicacaoModelos em {
+  color: var(--color-text);
+}
+
+.explicacaoIcone {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--color-accent);
+}
+
+.cardModeloDescricao {
+  margin: 0.45rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.cardModeloAssuntos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+}
+
+.cardModeloAssuntosRotulo {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
+
+.etiqueta {
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cardModelo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  background-color: var(--color-pill-bg);
+}
+
+.cardModeloNome {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cardModeloFornecedor {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
+
+.cardModeloLista {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.5rem;
+  margin: 0.6rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--color-card-border);
+  font-size: 0.72rem;
+}
+
+.cardModeloLista dt {
+  color: var(--color-text-secondary);
+}
+
+.cardModeloLista dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ---------- barra fixa (celular) ---------- */
+
+/* Só existe no celular: fica presa no topo enquanto a seção rola, mas só
+   aparece quando o cartão do topo já saiu da tela. Altura zero pra não
+   abrir espaço na página. */
+.barraFixa,
+.ancora {
+  display: none;
+}
+
+/* ---------- responsivo ---------- */
+
+@media (max-width: 1023px) {
+  .gradeAgora {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gradeDupla {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .cabecalho {
+    flex-wrap: wrap;
+  }
+
+  .seletorVisao {
+    width: 100%;
+  }
+
+  .botaoVisao {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .barraFixa {
+    display: block;
+    position: sticky;
+    top: 8px;
+    z-index: 600;
+    height: 0;
+    margin-bottom: -0.85rem;
+    pointer-events: none;
+  }
+
+  .ancora {
+    display: block;
+    height: 0;
+    margin-bottom: -0.85rem;
+  }
+
+  .barraFixaCaixa {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.45rem;
+    border-radius: 14px;
+    background-color: color-mix(in srgb, var(--color-card-bg) 92%, transparent);
+    border: 1px solid var(--color-card-border);
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.14);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .barraFixaVisivel {
+    pointer-events: auto;
+  }
+
+  .barraFixaVisivel .barraFixaCaixa {
+    opacity: 1;
+    transform: none;
+  }
+
+  .barraFixaPonto {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .barraFixaAbas {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.2rem;
+    border-radius: 999px;
+    background-color: var(--color-pill-bg);
+  }
+
+  .barraFixaBotao {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    min-height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .barraFixaBotaoAtivo {
+    background-color: var(--color-card-bg);
+    color: var(--color-accent);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Seletor de visão do topo: cabe inteiro na largura, botões iguais. */
+  .seletorVisao {
+    display: flex;
+    width: 100%;
+  }
+
+  .botaoVisao {
+    flex: 1;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0.45rem 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  /* Linhas que rolam de lado (regiões, praias, variáveis, modelos): uma
+     linha só, com a borda direita esmaecida pra mostrar que tem mais. */
+  .regioes,
+  .pontos,
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 82%, transparent);
+  }
+
+  .regioes::-webkit-scrollbar,
+  .pontos::-webkit-scrollbar,
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pontos .chipBotao,
+  .chips .chipBotao {
+    flex-shrink: 0;
+    min-height: 36px;
+  }
+
+  .pontos .gradeInfo {
+    display: none;
+  }
+
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+  }
+
+  /* Sem isso, a linha de botões numa linha só (nowrap) empurra a largura
+     da página em vez de rolar por dentro. */
+  .regioes,
+  .pontos,
+  .chips {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Agora no mar: 2 colunas, números menores. */
+  .gradeAgora {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .cardAgora {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .cardAgoraValor {
+    font-size: 1.1rem;
+  }
+
+  .cardAgoraLinha {
+    flex-direction: column;
+    gap: 0;
+    font-size: 0.7rem;
+  }
+
+  /* Resumo do histórico: 3 blocos pequenos lado a lado. */
+  .resumoHistorico {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .resumoHistorico > div {
+    padding: 0.6rem;
+  }
+
+  .resumoValor {
+    font-size: 1rem;
+  }
+
+  /* Modelos: carrossel deslizando de lado, espiando o próximo card. */
+  .gradeModelos {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .gradeModelos::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cardModelo {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+
+  .tabelaRolagem {
+    max-height: 60vh;
+  }
+
+  .cartaoTopo,
+  .bloco {
+    padding: 1rem;
+  }
+
+  .gradeInfo {
+    margin-left: 0;
+    width: 100%;
+  }
+}

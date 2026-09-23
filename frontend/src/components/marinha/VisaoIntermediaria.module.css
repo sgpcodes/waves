@@ -1,0 +1,430 @@
+/* Aba "Visão intermediária" (estilo site de surfe) — mesmos cards e tokens
+   do resto da Dashboard. */
+
+.visao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vazio {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.bloco,
+.agora,
+.glossario {
+  border-radius: 14px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+
+.bloco {
+  padding: 1.25rem 1.5rem;
+}
+
+.blocoCabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.blocoTitulo {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.blocoNota {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.nota {
+  margin: 0.6rem 0 0;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- agora ---------- */
+
+.agora {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.agoraItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 1.2rem;
+  min-width: 0;
+}
+
+.agoraItem + .agoraItem {
+  border-left: 1px solid var(--color-card-border);
+}
+
+.agoraRotulo {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.agoraValor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.agoraDetalhe {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- chips ---------- */
+
+.semNota {
+  color: var(--color-text-secondary);
+}
+
+.chipVento {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.08rem 0.45rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.chipVentoPonto {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alternar {
+  display: inline-flex;
+  padding: 0.2rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+}
+
+.alternarBotao {
+  padding: 0.35rem 0.8rem;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.alternarAtivo {
+  background-color: var(--color-card-bg);
+  color: var(--color-accent);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- grade de 3 em 3 horas ---------- */
+
+.gradeRolagem {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+}
+
+.grade {
+  border-collapse: collapse;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.grade th,
+.grade td {
+  min-width: 46px;
+  padding: 0.4rem 0.35rem;
+  text-align: center;
+  border-bottom: 1px solid var(--color-card-border);
+  color: var(--color-text);
+}
+
+.grade .gradeRotulo {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 96px;
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+  background-color: var(--color-card-bg);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  border-right: 1px solid var(--color-card-border);
+}
+
+.gradeDia {
+  font-weight: 700;
+  background-color: var(--color-pill-bg);
+  border-left: 2px solid var(--color-card-border);
+}
+
+.gradeHora {
+  font-weight: 600;
+  color: var(--color-text-secondary) !important;
+}
+
+.grade .inicioDia {
+  border-left: 2px solid var(--color-card-border);
+}
+
+/* Colunas da noite: fundo levemente sombreado (a célula de onda mantém a
+   própria cor, que vem inline). */
+.grade .colunaNoite {
+  background-color: var(--color-pill-bg);
+}
+
+.horaComIcone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.linhaDestaque td {
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.linhaPequena td {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+}
+
+.celulaDirecao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.celulaTipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-text);
+}
+
+.legendas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin-top: 0.8rem;
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+.legendaTitulo {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.legendaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.legendaCor {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* ---------- gráficos ---------- */
+
+.duasColunas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.legendaGrafico {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.74rem;
+  color: var(--color-text);
+}
+
+.legendaGrafico li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendaTraco {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.legendaBarra {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* ---------- resumo por dia ---------- */
+
+.resumo {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.resumo th,
+.resumo td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-card-border);
+  color: var(--color-text);
+}
+
+.resumo thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-table-header);
+}
+
+.resumo tbody th {
+  font-weight: 700;
+}
+
+.resumo tbody tr:last-child th,
+.resumo tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.resumo tbody tr:hover th,
+.resumo tbody tr:hover td {
+  background-color: var(--color-table-linha-hover);
+}
+
+/* ---------- glossário ---------- */
+
+.glossario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.glossario p {
+  margin: 0;
+}
+
+.glossario strong {
+  color: var(--color-text);
+}
+
+/* ---------- responsivo ---------- */
+
+@media (max-width: 1023px) {
+  .agora {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .agoraItem + .agoraItem {
+    border-left: none;
+  }
+
+  .agoraItem {
+    border-bottom: 1px solid var(--color-card-border);
+  }
+
+  .duasColunas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .bloco {
+    padding: 1rem;
+  }
+
+  .agoraItem {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .agoraValor {
+    font-size: 1.15rem;
+  }
+
+  .alternar {
+    display: flex;
+    width: 100%;
+  }
+
+  .alternarBotao {
+    flex: 1;
+    min-height: 36px;
+  }
+
+  /* Coluna de rótulos da grade mais estreita: sobra mais tela pros dados. */
+  .grade .gradeRotulo {
+    min-width: 74px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+
+  .grade th,
+  .grade td {
+    min-width: 44px;
+  }
+
+  .legendas {
+    gap: 0.3rem 0.6rem;
+    font-size: 0.68rem;
+  }
+
+  .resumo th,
+  .resumo td {
+    padding: 0.55rem 0.6rem;
+  }
+}

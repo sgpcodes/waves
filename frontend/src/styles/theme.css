@@ -1,0 +1,154 @@
+/*
+  Paleta de cores da Dashboard. O tema fica em <html data-theme="dia">
+  (index.html) — troque pra "noite" pra usar a versão escura.
+*/
+
+:root {
+  --transition-theme: background-color 0.8s ease, color 0.8s ease,
+    border-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+[data-theme='dia'] {
+  --color-text: #142850;
+  --color-text-secondary: #5779a6;
+  --color-accent: #4a6fa5;
+  --color-bg: #e8f1fc;
+  --color-card-bg: #ffffff;
+  --color-card-border: #e6ebf5;
+  --color-grid: #dce7f7;
+  --shadow-card: 0 4px 18px rgba(30, 64, 130, 0.06);
+  --chart-line: #4a6fa5;
+  --chart-area-inicio: rgba(74, 111, 165, 0.35);
+  --chart-area-fim: rgba(74, 111, 165, 0);
+
+  --color-pill-bg: rgba(74, 111, 165, 0.08);
+  --color-pill-ativo-bg: #4a6fa5;
+  --color-pill-ativo-texto: #ffffff;
+  --color-input-bg: #ffffff;
+  --color-table-header: #8593ad;
+  --color-table-linha-hover: rgba(74, 111, 165, 0.05);
+
+  --color-sidebar-bg: #1b4588;
+  --color-sidebar-border: rgba(255, 255, 255, 0.1);
+  --color-sidebar-text: rgba(255, 255, 255, 0.72);
+  --color-sidebar-text-ativo: #4a6fa5;
+  --color-sidebar-bg-ativo: rgba(255, 255, 255, 0.08);
+  --color-sidebar-selecionado-bg: #2f6fed;
+  --color-badge-off-bg: #eef1f6;
+  --color-badge-off-texto: #8593ad;
+
+  /* Faixas de velocidade do vento — paleta categórica com contraste
+     testado pra daltonismo. A ordem das cores importa: reordenar piora a
+     separação entre faixas vizinhas. */
+  --vento-calma: #c7ced9;
+  --vento-f1: #2a78d6;
+  --vento-f2: #eb6834;
+  --vento-f3: #1baf7a;
+  --vento-f4: #eda100;
+  --vento-f5: #e87ba4;
+
+  /* Uma cor por variável meteorológica (temperatura, umidade, pressão,
+     chuva, vento) — mesma paleta categórica das faixas de vento. */
+  --metrica-temperatura: #e34948;
+  --metrica-umidade: #1baf7a;
+  --metrica-pressao: #4a3aa7;
+  --metrica-chuva: #2a78d6;
+  --metrica-vento: #eb6834;
+
+  /* Cor de cada condição do tempo (sol/chuva/tempestade/nublado), pra
+     condição ficar clara pela cor e não só pelo formato do ícone. */
+  --condicao-sol: #eda100;
+  --condicao-chuva: #2a78d6;
+  --condicao-tempestade: #4a3aa7;
+  --condicao-nublado: #8593ad;
+  --condicao-parcialmente-nublado: #5598e7;
+  /* Uma cor por modelo da previsão marítima — mesma paleta categórica,
+     em ordem fixa: a cor segue o modelo, nunca a posição dele na lista. */
+  --modelo-1: #2a78d6;
+  --modelo-2: #eb6834;
+  --modelo-3: #1baf7a;
+  --modelo-4: #eda100;
+  --modelo-5: #e87ba4;
+  --modelo-6: #008300;
+  --mar-nivel: #2a78d6;
+  --mar-corrente: #1baf7a;
+}
+
+[data-theme='noite'] {
+  --color-text: #eef2ff;
+  --color-text-secondary: #93a5c9;
+  --color-accent: #4a6fa5;
+  --color-bg: #0b0f22;
+  --color-card-bg: #161b33;
+  --color-card-border: #262c4a;
+  --color-grid: rgba(255, 255, 255, 0.08);
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.35);
+  --chart-line: #4a6fa5;
+  --chart-area-inicio: rgba(74, 111, 165, 0.4);
+  --chart-area-fim: rgba(74, 111, 165, 0);
+
+  --color-pill-bg: rgba(255, 255, 255, 0.06);
+  --color-pill-ativo-bg: #4a6fa5;
+  --color-pill-ativo-texto: #ffffff;
+  --color-input-bg: rgba(255, 255, 255, 0.06);
+  --color-table-header: #6c7ba3;
+  --color-table-linha-hover: rgba(255, 255, 255, 0.04);
+
+  --color-sidebar-bg: #1b4588;
+  --color-sidebar-border: rgba(255, 255, 255, 0.1);
+  --color-sidebar-text: rgba(255, 255, 255, 0.72);
+  --color-sidebar-text-ativo: #4a6fa5;
+  --color-sidebar-bg-ativo: rgba(255, 255, 255, 0.08);
+  --color-sidebar-selecionado-bg: #2f6fed;
+  --color-badge-off-bg: rgba(255, 255, 255, 0.06);
+  --color-badge-off-texto: #93a5c9;
+
+  /* Mesma paleta categórica, com tons ajustados pro fundo escuro
+     (--color-card-bg #161b33) em vez de só escurecer as cores claras. */
+  --vento-calma: #3a4159;
+  --vento-f1: #3987e5;
+  --vento-f2: #d95926;
+  --vento-f3: #199e70;
+  --vento-f4: #c98500;
+  --vento-f5: #d55181;
+
+  --metrica-temperatura: #e66767;
+  --metrica-umidade: #199e70;
+  --metrica-pressao: #9085e9;
+  --metrica-chuva: #3987e5;
+  --metrica-vento: #d95926;
+
+  --condicao-sol: #c98500;
+  --condicao-chuva: #3987e5;
+  --condicao-tempestade: #9085e9;
+  --condicao-nublado: #6c7ba3;
+  --condicao-parcialmente-nublado: #6da7ec;
+  --modelo-1: #3987e5;
+  --modelo-2: #d95926;
+  --modelo-3: #199e70;
+  --modelo-4: #c98500;
+  --modelo-5: #d55181;
+  --modelo-6: #008300;
+  --mar-nivel: #3987e5;
+  --mar-corrente: #199e70;
+}
+
+/*
+  Cores fixas de status/semântica, que não mudam entre dia e noite
+  (ex.: verde de "online", vermelho de temperatura máxima).
+*/
+:root {
+  --color-status-online: #22c55e;
+  --color-status-offline: #ef4444;
+  --color-maxima: #ef4444;
+  --color-minima: #3b82f6;
+  --color-media: #10b981;
+  --color-umidade: #0ea5e9;
+
+  /* Status da "Visão simples" da previsão marítima (bom → crítico). Fixos
+     entre dia e noite e sempre acompanhados de ícone + texto. */
+  --status-bom: #0ca30c;
+  --status-atencao: #fab219;
+  --status-serio: #ec835a;
+  --status-critico: #d03b3b;
+}

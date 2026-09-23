@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fundo da página — o tema (data-theme="dia") fica no <html>, então o
+   modal do mapa (renderizado por portal no <body>) também herda as cores. */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+#root {
+  padding: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  #root {
+    padding: 1rem;
+  }
+}

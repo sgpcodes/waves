@@ -1,0 +1,15 @@
+.pagina {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Item de flex/grid não encolhe abaixo do próprio conteúdo por padrão —
+   sem isso a faixa de dias da previsão empurraria a página pra fora da tela
+   em vez de rolar por dentro. */
+.pagina > * {
+  min-width: 0;
+}
