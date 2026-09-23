@@ -16,22 +16,14 @@ import styles from './PrevisaoMaritima.module.css'
 const INTERVALO_ATUALIZACAO_MS = 10 * 60_000 // o backend guarda 30 min em cache
 const CHAVE_PONTO = 'ondas:pontoMaritimo'
 const PONTO_PADRAO = 'copacabana-ipanema'
-const CHAVE_VISAO = 'ondas:visaoMaritima'
+
+const VISAO_INICIAL = 'intermediaria'
 
 const VISOES = [
   { id: 'tecnica', rotulo: 'Técnica', rotuloCurto: 'Técnica', icone: BarChart3 },
   { id: 'intermediaria', rotulo: 'Intermediária', rotuloCurto: 'Intermed.', icone: Waves },
   { id: 'simples', rotulo: 'Simples', rotuloCurto: 'Simples', icone: Smile },
 ]
-
-function lerVisao() {
-  try {
-    const salva = localStorage.getItem(CHAVE_VISAO)
-    return VISOES.some((v) => v.id === salva) ? salva : 'tecnica'
-  } catch {
-    return 'tecnica'
-  }
-}
 
 function lerPonto() {
   try {
@@ -58,7 +50,9 @@ function PrevisaoMaritima() {
   const [previsao, setPrevisao] = useState(null)
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState(null)
-  const [visao, setVisao] = useState(lerVisao)
+  // Toda pessoa que entra começa na visão intermediária; a simples e a
+  // técnica ficam no seletor pra quem quiser trocar.
+  const [visao, setVisao] = useState(VISAO_INICIAL)
   // Barra fixa do celular: aparece quando o cartão do topo (praia + abas)
   // sai da tela, pra dar pra trocar de visão sem rolar tudo de volta.
   const refTopo = useRef(null)
@@ -134,11 +128,6 @@ function PrevisaoMaritima() {
     if (rolarProTopo) {
       const topo = refConteudo.current?.getBoundingClientRect().top ?? 0
       window.scrollTo({ top: window.scrollY + topo - 64, behavior: 'smooth' })
-    }
-    try {
-      localStorage.setItem(CHAVE_VISAO, id)
-    } catch {
-      // sem storage — só não lembra a escolha
     }
   }
 
