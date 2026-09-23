@@ -14,8 +14,7 @@
 }
 
 .bloco,
-.agora,
-.glossario {
+.agora {
   border-radius: 14px;
   background-color: var(--color-card-bg);
   border: 1px solid var(--color-card-border);
@@ -340,26 +339,6 @@
 .resumo tbody tr:hover th,
 .resumo tbody tr:hover td {
   background-color: var(--color-table-linha-hover);
-}
-
-/* ---------- glossário ---------- */
-
-.glossario {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 1rem 1.25rem;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-}
-
-.glossario p {
-  margin: 0;
-}
-
-.glossario strong {
-  color: var(--color-text);
 }
 
 /* ---------- responsivo ---------- */

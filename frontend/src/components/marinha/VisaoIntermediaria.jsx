@@ -404,21 +404,6 @@ function VisaoIntermediaria({ previsao }) {
           </table>
         </div>
       </div>
-
-      <div className={styles.glossario}>
-        <p>
-          <strong>Energia (J/m²) e potência (kW/m):</strong> calculadas da altura e do período (a API não fornece esses
-          dados). A energia depende só da altura; a potência também do período — ondas do mesmo tamanho, mas mais
-          espaçadas, chegam com bem mais força.
-        </p>
-        <p>
-          <strong>Terral:</strong> vento da terra pro mar, que deixa a onda lisa. <strong>Maral:</strong> vento do mar pra
-          terra, que bagunça a onda. <strong>Lateral:</strong> paralelo à praia.
-        </p>
-        <p>
-          <strong>Setas:</strong> apontam pra onde a onda e o vento estão indo. As letras (L, SE, S…) dizem de onde vêm.
-        </p>
-      </div>
     </div>
   )
 }
