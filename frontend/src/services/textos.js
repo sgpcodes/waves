@@ -12,7 +12,7 @@ export const TEXTOS = {
   carregandoCidades: 'Carregando cidades...',
   localizando: 'Localizando...',
   previsaoTitulo: 'Previsão do tempo',
-  previsaoSubtitulo: 'Previsão para os próximos 15 dias. Toque num dia pra ver a previsão por período.',
+  previsaoSubtitulo: 'Previsão para os próximos 15 dias. Toque num dia pra ver as horas dele.',
   previsaoPorPeriodo: 'Previsão por período',
   proximasHoras: 'Próximas horas',
   horaAHora: 'Hora a hora',

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Droplets, Sunrise, Sunset, Eye, Gauge, Wind, ChevronDown } from 'lucide-react'
+import { Droplets, Sunrise, Sunset, Eye, Gauge, Wind } from 'lucide-react'
 import iconeSol from '../assets/clima/sol.png'
 import iconeNublado from '../assets/clima/nublado.png'
 import iconeParcialmenteNublado from '../assets/clima/parcialmente-nublado.png'
@@ -82,7 +82,8 @@ function agruparPorTurno(pontosDoDia) {
 // Previsão de 15 dias + painel "Hoje" (ponto de orvalho, UV, visibilidade,
 // nascer/pôr do sol). Clicar num dia expande a previsão por turno embaixo.
 function PrevisaoSemana({ clima, cidade }) {
-  const [diaExpandidoIndice, setDiaExpandidoIndice] = useState(null)
+  // Dia mostrado na faixa de horas — sempre aberta, começa em hoje.
+  const [diaExpandidoIndice, setDiaExpandidoIndice] = useState(0)
 
   const dias = clima?.previsaoDiaria ?? []
   const diaHoje = dias[0] ?? null
@@ -113,7 +114,7 @@ function PrevisaoSemana({ clima, cidade }) {
   }, [clima, diaExpandido, diaExpandidoIndice])
 
   function aoClicarDia(indice) {
-    setDiaExpandidoIndice((atual) => (atual === indice ? null : indice))
+    setDiaExpandidoIndice(indice)
   }
 
   function nomeDoDia(indice, dia) {
@@ -146,7 +147,7 @@ function PrevisaoSemana({ clima, cidade }) {
                 type="button"
                 className={`${styles.diaCard} ${diaExpandidoIndice === indice ? styles.diaCardAtivo : ''}`}
                 onClick={() => aoClicarDia(indice)}
-                aria-expanded={diaExpandidoIndice === indice}
+                aria-pressed={diaExpandidoIndice === indice}
               >
                 <span className={styles.diaCardNome}>{nomeDoDia(indice, dia)}</span>
                 <span className={styles.diaCardData}>{formatarDataCurta(dia.data)}</span>
@@ -161,7 +162,6 @@ function PrevisaoSemana({ clima, cidade }) {
                 <span className={styles.diaCardMetrica}>
                   <Wind size={12} /> {dia.ventoDirecaoTexto} {dia.ventoIntensidade}
                 </span>
-                <ChevronDown size={14} className={`${styles.diaCardSeta} ${diaExpandidoIndice === indice ? styles.diaCardSetaAberta : ''}`} />
               </button>
             ))}
           </div>
@@ -170,40 +170,39 @@ function PrevisaoSemana({ clima, cidade }) {
         {diaExpandido && (
           <div className={styles.painelHoras}>
             <h3 className={styles.painelHorasTitulo}>
-              {TEXTOS.previsaoPorPeriodo} — {nomeDoDia(diaExpandidoIndice, diaExpandido)}, {formatarDataCurta(diaExpandido.data)}
+              {diaExpandidoIndice === 0 ? TEXTOS.proximasHoras : TEXTOS.horaAHora} — {nomeDoDia(diaExpandidoIndice, diaExpandido)},{' '}
+              {formatarDataCurta(diaExpandido.data)}
             </h3>
-            {turnosDoDiaExpandido.length === 0 && horasDoDiaExpandido.length === 0 && (
+            {horasDoDiaExpandido.length === 0 && turnosDoDiaExpandido.length === 0 && (
               <p className={styles.vazio}>{TEXTOS.previsaoIndisponivel}</p>
             )}
-            {turnosDoDiaExpandido.length > 0 && (
-              <div className={styles.turnos}>
-                {turnosDoDiaExpandido.map((turno) => (
-                  <div key={turno.chave} className={styles.turnoCard}>
-                    <span className={styles.turnoRotulo}>{turno.rotulo}</span>
-                    <img src={turno.icone} alt="" className={styles.turnoIcone} />
-                    <span className={styles.turnoTemp}>{turno.temperatura != null ? `${turno.temperatura}°` : '—'}</span>
+            {horasDoDiaExpandido.length > 0 && (
+              <div className={styles.horas}>
+                {horasDoDiaExpandido.map((ponto, indice) => (
+                  <div key={ponto.dataHora} className={`${styles.horaCard} ${diaExpandidoIndice === 0 && indice === 0 ? styles.horaCardAgora : ''}`}>
+                    <span className={styles.horaRotulo}>
+                      {diaExpandidoIndice === 0 && indice === 0 ? TEXTOS.agora : `${ponto.dataHora.slice(11, 13)}h`}
+                    </span>
+                    <img src={iconeParaHora(ponto.condicao, ponto.dataHora)} alt="" className={styles.horaIcone} />
+                    <span className={styles.horaTemp}>{ponto.temperatura != null ? `${Math.round(ponto.temperatura)}°` : '—'}</span>
                     <span className={styles.turnoChuva}>
-                      <Droplets size={12} /> {turno.chuvaProbabilidade != null ? `${turno.chuvaProbabilidade}%` : '—'}
+                      <Droplets size={11} /> {ponto.chuvaProbabilidade != null ? `${ponto.chuvaProbabilidade}%` : '—'}
                     </span>
                   </div>
                 ))}
               </div>
             )}
-            {horasDoDiaExpandido.length > 0 && (
+            {turnosDoDiaExpandido.length > 0 && (
               <>
-                <h4 className={styles.horasTitulo}>
-                  {diaExpandidoIndice === 0 ? TEXTOS.proximasHoras : TEXTOS.horaAHora}
-                </h4>
-                <div className={styles.horas}>
-                  {horasDoDiaExpandido.map((ponto, indice) => (
-                    <div key={ponto.dataHora} className={`${styles.horaCard} ${diaExpandidoIndice === 0 && indice === 0 ? styles.horaCardAgora : ''}`}>
-                      <span className={styles.horaRotulo}>
-                        {diaExpandidoIndice === 0 && indice === 0 ? TEXTOS.agora : `${ponto.dataHora.slice(11, 13)}h`}
-                      </span>
-                      <img src={iconeParaHora(ponto.condicao, ponto.dataHora)} alt="" className={styles.horaIcone} />
-                      <span className={styles.horaTemp}>{ponto.temperatura != null ? `${Math.round(ponto.temperatura)}°` : '—'}</span>
+                <h4 className={styles.horasTitulo}>{TEXTOS.previsaoPorPeriodo}</h4>
+                <div className={styles.turnos}>
+                  {turnosDoDiaExpandido.map((turno) => (
+                    <div key={turno.chave} className={styles.turnoCard}>
+                      <span className={styles.turnoRotulo}>{turno.rotulo}</span>
+                      <img src={turno.icone} alt="" className={styles.turnoIcone} />
+                      <span className={styles.turnoTemp}>{turno.temperatura != null ? `${turno.temperatura}°` : '—'}</span>
                       <span className={styles.turnoChuva}>
-                        <Droplets size={11} /> {ponto.chuvaProbabilidade != null ? `${ponto.chuvaProbabilidade}%` : '—'}
+                        <Droplets size={12} /> {turno.chuvaProbabilidade != null ? `${turno.chuvaProbabilidade}%` : '—'}
                       </span>
                     </div>
                   ))}

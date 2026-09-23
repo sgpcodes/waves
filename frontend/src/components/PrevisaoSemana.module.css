@@ -81,7 +81,7 @@
   text-align: center;
   gap: 0.35rem;
   flex: 0 0 108px;
-  padding: 1rem 0.6rem 1.4rem;
+  padding: 1rem 0.6rem;
   border: 2px solid transparent;
   border-radius: 14px;
   background-color: var(--color-pill-bg);
@@ -139,20 +139,6 @@
   font-size: 0.68rem;
   color: var(--color-text-secondary);
   white-space: nowrap;
-}
-
-.diaCardSeta {
-  position: absolute;
-  bottom: 0.4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--color-text-secondary);
-  transition: transform 0.2s ease;
-}
-
-.diaCardSetaAberta {
-  transform: translateX(-50%) rotate(180deg);
-  color: var(--color-accent);
 }
 
 .painelHoras {
