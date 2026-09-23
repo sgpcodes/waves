@@ -1,8 +1,14 @@
 import { buscarClimaNoNavegador, buscarVentoNoNavegador } from './openMeteoNavegador'
 
-// Cliente do backend Django (backend/clima). A URL vem de VITE_API_URL,
-// definida no .env local ou nas Environment Variables do Render.
-export const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8010').replace(/\/$/, '')
+// Cliente do backend Django (backend/clima). A URL vem de VITE_API_URL
+// (.env local ou Environment Variables do Render). Sem ela: no site
+// publicado usa o backend do Render; rodando local, o backend da máquina.
+const BACKEND_PRODUCAO = 'https://ondas-backend-zs1o.onrender.com'
+const BACKEND_LOCAL = 'http://localhost:8010'
+
+export const API_BASE_URL = (
+  import.meta.env.VITE_API_URL || (import.meta.env.PROD ? BACKEND_PRODUCAO : BACKEND_LOCAL)
+).replace(/\/$/, '')
 
 async function get(caminho, parametros) {
   const query = parametros ? `?${new URLSearchParams(parametros)}` : ''
