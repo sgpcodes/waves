@@ -34,7 +34,7 @@ ondas/
 |---|---|---|
 | IBGE Localidades | lista de municípios por UF | `backend/clima/servicos.py` |
 | Open-Meteo Geocoding | cidade + UF → latitude/longitude | `backend/clima/servicos.py` |
-| Open-Meteo Forecast | clima atual e previsão de 15 dias | `backend/clima/servicos.py` |
+| Open-Meteo Forecast | clima atual e previsão de 15 dias | `backend/clima/servicos.py` (se o servidor for recusado, o navegador busca direto: `frontend/src/services/openMeteoNavegador.js`) |
 | Open-Meteo Marine | ondas, swell, maré, correntes, temperatura da água (todos os modelos) | `backend/clima/marinha.py` |
 | OpenStreetMap tiles | mapa | `frontend/src/components/EstacaoCabecalho.jsx` |
 

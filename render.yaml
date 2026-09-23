@@ -20,9 +20,9 @@ services:
       # Connection string do Supabase (Session pooler, porta 5432).
       - key: DATABASE_URL
         sync: false
-      # URL do frontend, ex.: https://ondas-frontend.onrender.com
+      # URL do frontend (só ele pode chamar a API).
       - key: CORS_ALLOWED_ORIGINS
-        sync: false
+        value: https://ondas-frontend.onrender.com
 
   - type: web
     name: ondas-frontend
@@ -34,9 +34,10 @@ services:
       # O Vite 8 precisa de Node 20.19+ — fixa a 22 pra não depender do padrão do Render.
       - key: NODE_VERSION
         value: "22"
-      # URL do backend, ex.: https://ondas-backend.onrender.com
+      # URL do backend (o Render acrescentou "-zs1o" ao nome do serviço).
+      # Fica gravada no build — mudou aqui, precisa de um novo deploy.
       - key: VITE_API_URL
-        sync: false
+        value: https://ondas-backend-zs1o.onrender.com
     routes:
       - type: rewrite
         source: /*

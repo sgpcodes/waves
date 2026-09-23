@@ -1,3 +1,5 @@
+import { buscarClimaNoNavegador, buscarVentoNoNavegador } from './openMeteoNavegador'
+
 // Cliente do backend Django (backend/clima). A URL vem de VITE_API_URL,
 // definida no .env local ou nas Environment Variables do Render.
 export const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8010').replace(/\/$/, '')
@@ -27,9 +29,15 @@ export function geocodificarCidade(cidade, uf) {
   return get('/api/localizacao/', { cidade, uf })
 }
 
-// Clima atual + previsão de 15 dias (Open-Meteo, via backend).
-export function buscarClima({ latitude, longitude }) {
-  return get('/api/clima/', { latitude, longitude })
+// Clima atual + previsão de 15 dias (Open-Meteo, via backend). Se o
+// backend não conseguir (a Open-Meteo pode recusar o IP compartilhado de
+// servidores gratuitos), busca direto pelo navegador — mesmo formato.
+export async function buscarClima({ latitude, longitude }) {
+  try {
+    return await get('/api/clima/', { latitude, longitude })
+  } catch {
+    return buscarClimaNoNavegador({ latitude, longitude })
+  }
 }
 
 // Pontos da costa do RJ usados na previsão marítima.
@@ -38,6 +46,16 @@ export function buscarPontosMaritimos() {
 }
 
 // Previsão marítima completa de um ponto (todos os modelos da Marine API).
-export function buscarPrevisaoMaritima(ponto) {
-  return get('/api/marinha/', { ponto })
+// O vento vem da API de previsão do tempo; se o backend não conseguiu
+// buscar (mesmo motivo do clima), completa pelo navegador.
+export async function buscarPrevisaoMaritima(ponto) {
+  const previsao = await get('/api/marinha/', { ponto })
+  if (!previsao.vento && previsao.ponto) {
+    try {
+      previsao.vento = await buscarVentoNoNavegador(previsao.ponto)
+    } catch {
+      // sem vento: a visão intermediária mostra "sem dado de vento"
+    }
+  }
+  return previsao
 }
